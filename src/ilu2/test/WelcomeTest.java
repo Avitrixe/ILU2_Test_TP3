@@ -37,5 +37,12 @@ class WelcomeTest {
 		assertEquals(Welcome.welcome("dupond,tintin"), "Hello, Dupond, Tintin");
 		assertEquals(Welcome.welcome("tintin,bob"), "Hello, Tintin, Bob");
 	}
+	
+	@Test
+	void testEx5() {
+		assertEquals(Welcome.welcome("bob,dupond,tintin"), "Hello, Bob, Dupond, Tintin");
+		assertEquals(Welcome.welcome("asterix,obelix,panoramix"), "Hello, Asterix, Obelix, Panoramix");
+		assertEquals(Welcome.welcome("boutade,rigolade,sourire"), "Hello, Boutade, Rigolade, Sourire");
+	}
 
 }

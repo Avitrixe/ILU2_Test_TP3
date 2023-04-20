@@ -15,9 +15,10 @@ public class Welcome {
 		StringBuilder chaine = new StringBuilder();
 		String[] noms = input.split(",");
 		if(noms.length > 1) {
-			String nom1 = Welcome.majNom(noms[0]);
-			String nom2 = Welcome.majNom(noms[1]);
-			chaine.append("Hello, ").append(nom1).append(", ").append(nom2);
+			chaine.append("Hello");
+			for(int i=0; i<noms.length;i++) {
+				chaine.append(", ").append(Welcome.majNom(noms[i]));
+			}
 			return chaine.toString();
 		}
 		String chaine_maj = input.toUpperCase();
