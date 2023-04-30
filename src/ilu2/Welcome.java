@@ -8,29 +8,58 @@ public class Welcome {
 		return nomAvecMaj;
 	}
 	
-	private static String gererPleinNoms(String noms[]) {
+	private static String afficherPhraseBase(String[] noms, int noms_size) {
 		StringBuilder chaine = new StringBuilder();
-		StringBuilder chaine_cri = new StringBuilder();
-		chaine_cri.append("AND HELLO");
 		chaine.append("Hello");
-		for(int i=0; i<noms.length;i++) {
-			if(noms[i].toUpperCase() == noms[i]) {
-				chaine_cri.append(", " + noms[i]);
+		for(int i=0; i<noms_size; i++) {
+			if(i == noms_size-1 && i != 0) {
+				chaine.append(" and ").append(Welcome.majNom(noms[i]));
 			}
 			else {
 				chaine.append(", ").append(Welcome.majNom(noms[i]));
 			}
 		}
-		if(chaine_cri.toString().equalsIgnoreCase("AND HELLO")) {
-			return chaine.toString();
-		}
-		else {
-			chaine.append(".");
-			chaine_cri.append(" !");
-			chaine.append(" ").append(chaine_cri.toString());
-			return chaine.toString();
-		}
+		return chaine.toString();
 	}
+	
+	private static String afficherPhraseCrie(String[] noms, int noms_size) {
+		StringBuilder chaine = new StringBuilder();
+		chaine.append(" AND HELLO");
+		for(int i=0; i<noms_size; i++) {
+			if(i == noms_size-1 && i != 0) {
+				chaine.append(" AND ").append(noms[i]);
+			}
+			else {
+				chaine.append(", ").append(noms[i]);
+			}
+		}
+		chaine.append(" !");
+		return chaine.toString();
+	}
+	
+	private static String gererPleinNoms(String[] noms) {
+		String[] noms_maj = new String[noms.length];
+		int nombre_noms_maj = 0;
+		String[] noms_min = new String[noms.length];
+		int nombre_nom_min = 0;
+		for(int i = 0; i<noms.length; i++) {
+			if(noms[i].toUpperCase() == noms[i]) {
+				noms_maj[nombre_noms_maj] = noms[i];
+				nombre_noms_maj ++;
+			}
+			else {
+				noms_min[nombre_nom_min] = noms[i];
+				nombre_nom_min ++;
+			}
+		}
+		StringBuilder chaine = new StringBuilder();
+		chaine.append(afficherPhraseBase(noms_min, nombre_nom_min)).append(".");
+		if(nombre_noms_maj > 0) {
+			chaine.append(afficherPhraseCrie(noms_maj, nombre_noms_maj));
+		}
+		return chaine.toString();
+	}		
+		
 	
 	public static String welcome(String input) {
 		if(input == null || input.isBlank()) {
