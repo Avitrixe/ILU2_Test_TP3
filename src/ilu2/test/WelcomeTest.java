@@ -33,16 +33,16 @@ class WelcomeTest {
 	
 	@Test
 	void testEx4() {
-		assertEquals(Welcome.welcome("bob,dupond"), "Hello, Bob and Dupond.");
-		assertEquals(Welcome.welcome("dupond,tintin"), "Hello, Dupond and Tintin.");
-		assertEquals(Welcome.welcome("tintin,bob"), "Hello, Tintin and Bob.");
+		assertEquals(Welcome.welcome("bob,dupond"), "Hello, Bob and Dupond");
+		assertEquals(Welcome.welcome("dupond,tintin"), "Hello, Dupond and Tintin");
+		assertEquals(Welcome.welcome("tintin,bob"), "Hello, Tintin and Bob");
 	}
 	
 	@Test
 	void testEx5() {
-		assertEquals(Welcome.welcome("bob,dupond,tintin,jean,jack"), "Hello, Bob, Dupond, Tintin, Jean and Jack.");
-		assertEquals(Welcome.welcome("asterix,obelix,panoramix,jean"), "Hello, Asterix, Obelix, Panoramix and Jean.");
-		assertEquals(Welcome.welcome("boutade,rigolade,sourire,jean,jack,benoit"), "Hello, Boutade, Rigolade, Sourire, Jean, Jack and Benoit.");
+		assertEquals(Welcome.welcome("bob,dupond,tintin,jean,jack"), "Hello, Bob, Dupond, Tintin, Jean and Jack");
+		assertEquals(Welcome.welcome("asterix,obelix,panoramix,jean"), "Hello, Asterix, Obelix, Panoramix and Jean");
+		assertEquals(Welcome.welcome("boutade,rigolade,sourire,jean,jack,benoit"), "Hello, Boutade, Rigolade, Sourire, Jean, Jack and Benoit");
 	}
 	
 	@Test
@@ -51,6 +51,13 @@ class WelcomeTest {
 		assertEquals(Welcome.welcome("BOB,tintin"), "Hello, Tintin. AND HELLO, BOB !");
 		assertEquals(Welcome.welcome("asterix,obelix,JEAN"), "Hello, Asterix and Obelix. AND HELLO, JEAN !");
 		assertEquals(Welcome.welcome("asterix,OBELIX,JEAN"), "Hello, Asterix. AND HELLO, OBELIX AND JEAN !");
+	}
+	
+	@Test
+	void testEx7() {
+		assertEquals(Welcome.welcome("bob    ,amy   "), "Hello, Bob and Amy");
+		assertEquals(Welcome.welcome("       amy,  JACK  , bob   "), "Hello, Amy and Bob. AND HELLO, JACK !");
+		assertEquals(Welcome.welcome("amy,   JACK                      ,                                          bob   , TINTIN"), "Hello, Amy and Bob. AND HELLO, JACK AND TINTIN !");
 	}
 
 }
