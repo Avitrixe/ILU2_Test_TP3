@@ -24,7 +24,7 @@ public class Welcome {
 		for(int i = 0; i<noms.length; i++) {
 			dedans = false;
 			for(int j = 0; j<nombre_noms_distinct; j++) {
-				if(noms[i].equalsIgnoreCase(noms_distinct[j])) dedans = true;
+				if(noms[i].equals(noms_distinct[j])) dedans = true;
 				
 			}
 			if(!dedans) {
@@ -40,7 +40,7 @@ public class Welcome {
 		for(int i = 0; i<taille_noms_distinct; i++) {
 			compteur[i] = 0;
 			for(int j = 0; j<noms_non_distinct.length; j++) {
-				if(noms_distinct[i].equalsIgnoreCase(noms_non_distinct[j])) compteur[i] ++;
+				if(noms_distinct[i].equals(noms_non_distinct[j])) compteur[i] ++;
 			}
 		}
 		return compteur;
@@ -50,7 +50,7 @@ public class Welcome {
 		int taille_noms = tailleTab(noms);
 		boolean estDedans = false;
 		for(int i = 0; i<taille_noms; i++) {
-			if(noms[i].equalsIgnoreCase(nom)) estDedans = true;
+			if(noms[i].equals(nom)) estDedans = true;
 		}
 		return estDedans;
 	}
@@ -133,7 +133,6 @@ public class Welcome {
 		input = input.replaceAll("\\s", "");
 		String[] noms_non_distinct = input.split(",");
 		String[] noms = faireListeNomsDistinct(noms_non_distinct);
-		//for(int i = 0; i<noms.length; i++) System.out.println(noms[i]);
 		if(noms.length > 1) {
 			String chaine = gererPleinNoms(noms, noms_non_distinct);
 			return chaine;
