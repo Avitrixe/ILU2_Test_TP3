@@ -8,7 +8,45 @@ public class Welcome {
 		return nomAvecMaj;
 	}
 	
-	private static String afficherPhraseBase(String[] noms, int noms_size) {
+	private static int tailleTab(String[] tab) {
+		int taille = 0;
+		for(int i = 0; i<tab.length; i++) {
+			if(tab[i] == null) return i;
+			taille ++;
+		}
+		return taille;
+	}
+	
+	private static String[] faireListeNomsDistinct(String[] noms) {
+		String[] noms_distinct = new String[noms.length];
+		int nombre_noms_distinct = 0;
+		boolean dedans;
+		for(int i = 0; i<noms.length; i++) {
+			dedans = false;
+			for(int j = 0; j<nombre_noms_distinct; j++) {
+				if(noms[i].equalsIgnoreCase(noms_distinct[j])) dedans = true;
+				
+			}
+			if(!dedans) {
+				noms_distinct[nombre_noms_distinct] = noms[i];
+				nombre_noms_distinct ++;
+			}
+		}
+		return noms_distinct;
+	}
+	
+	private static int[] compter_noms(String[] noms_non_distinct, String[] noms_distinct, int taille_noms_distinct) {
+		int[] compteur = new int[noms_non_distinct.length];
+		for(int i = 0; i<taille_noms_distinct; i++) {
+			compteur[i] = 0;
+			for(int j = 0; j<noms_non_distinct.length; j++) {
+				if(noms_distinct[i].equalsIgnoreCase(noms_non_distinct[j])) compteur[i] ++;
+			}
+		}
+		return compteur;
+	}
+	
+	private static String afficherPhraseBase(String[] noms, int noms_size, int[] compteur) {
 		StringBuilder chaine = new StringBuilder();
 		chaine.append("Hello");
 		for(int i=0; i<noms_size; i++) {
@@ -18,13 +56,16 @@ public class Welcome {
 			else {
 				chaine.append(", ").append(Welcome.majNom(noms[i]));
 			}
+			if(compteur[i] != 1) {
+				chaine.append(" (x" + compteur[i] + ")");
+			}
 		}
 		return chaine.toString();
 	}
 	
-	private static String afficherPhraseCrie(String[] noms, int noms_size) {
+	private static String afficherPhraseCrie(String[] noms, int noms_size, int[] compteur) {
 		StringBuilder chaine = new StringBuilder();
-		chaine.append(". AND HELLO");
+		chaine.append("HELLO");
 		for(int i=0; i<noms_size; i++) {
 			if(i == noms_size-1 && i != 0) {
 				chaine.append(" AND ").append(noms[i]);
@@ -32,17 +73,21 @@ public class Welcome {
 			else {
 				chaine.append(", ").append(noms[i]);
 			}
+			if(compteur[i] != 1) {
+				chaine.append(" (x" + compteur[i] + ")");
+			}
 		}
 		chaine.append(" !");
 		return chaine.toString();
 	}
 	
-	private static String gererPleinNoms(String[] noms) {
-		String[] noms_maj = new String[noms.length];
+	private static String gererPleinNoms(String[] noms, String[] noms_non_distinct) {
+		int taille_noms = tailleTab(noms);
+		String[] noms_maj = new String[taille_noms];
 		int nombre_noms_maj = 0;
-		String[] noms_min = new String[noms.length];
+		String[] noms_min = new String[taille_noms];
 		int nombre_nom_min = 0;
-		for(int i = 0; i<noms.length; i++) {
+		for(int i = 0; i<taille_noms; i++) {
 			if(noms[i].toUpperCase() == noms[i]) {
 				noms_maj[nombre_noms_maj] = noms[i];
 				nombre_noms_maj ++;
@@ -52,11 +97,16 @@ public class Welcome {
 				nombre_nom_min ++;
 			}
 		}
+		int taille_noms_min = tailleTab(noms_min);
+		int taille_noms_max = tailleTab(noms_maj);
+		int[] compteur_nom_min = compter_noms(noms_non_distinct, noms_min, taille_noms_min);
+		int[] compteur_nom_maj = compter_noms(noms_non_distinct, noms_maj, taille_noms_max);
 		StringBuilder chaine = new StringBuilder();
-		chaine.append(afficherPhraseBase(noms_min, nombre_nom_min));
-		if(nombre_noms_maj > 0) {
-			chaine.append(afficherPhraseCrie(noms_maj, nombre_noms_maj));
+		if(nombre_nom_min > 0) {
+			chaine.append(afficherPhraseBase(noms_min, nombre_nom_min, compteur_nom_min));
+			if(nombre_noms_maj > 0) chaine.append(". AND ");
 		}
+		if(nombre_noms_maj > 0) chaine.append(afficherPhraseCrie(noms_maj, nombre_noms_maj, compteur_nom_maj));
 		return chaine.toString();
 	}		
 		
@@ -66,9 +116,11 @@ public class Welcome {
 			return "Hello, my friend";
 		}
 		input = input.replaceAll("\\s", "");
-		String[] noms = input.split(",");
+		String[] noms_non_distinct = input.split(",");
+		String[] noms = faireListeNomsDistinct(noms_non_distinct);
+		//for(int i = 0; i<noms.length; i++) System.out.println(noms[i]);
 		if(noms.length > 1) {
-			String chaine = gererPleinNoms(noms);
+			String chaine = gererPleinNoms(noms, noms_non_distinct);
 			return chaine;
 		}
 		StringBuilder chaine = new StringBuilder();
