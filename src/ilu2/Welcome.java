@@ -46,37 +46,52 @@ public class Welcome {
 		return compteur;
 	}
 	
+	private static boolean etreDansNoms(String[] noms, String nom) {
+		int taille_noms = tailleTab(noms);
+		boolean estDedans = false;
+		for(int i = 0; i<taille_noms; i++) {
+			if(noms[i].equalsIgnoreCase(nom)) estDedans = true;
+		}
+		return estDedans;
+	}
+	
 	private static String afficherPhraseBase(String[] noms, int noms_size, int[] compteur) {
 		StringBuilder chaine = new StringBuilder();
-		chaine.append("Hello");
+		boolean yodaInNoms = etreDansNoms(noms, "yoda");
+		if(!yodaInNoms) chaine.append("Hello");
 		for(int i=0; i<noms_size; i++) {
 			if(i == noms_size-1 && i != 0) {
 				chaine.append(" and ").append(Welcome.majNom(noms[i]));
 			}
 			else {
-				chaine.append(", ").append(Welcome.majNom(noms[i]));
+				if(yodaInNoms && i == 0) chaine.append(Welcome.majNom(noms[i]));
+				else chaine.append(", ").append(Welcome.majNom(noms[i]));
 			}
 			if(compteur[i] != 1) {
 				chaine.append(" (x" + compteur[i] + ")");
 			}
 		}
+		if(yodaInNoms) chaine.append(", Hello");
 		return chaine.toString();
 	}
 	
 	private static String afficherPhraseCrie(String[] noms, int noms_size, int[] compteur) {
 		StringBuilder chaine = new StringBuilder();
-		chaine.append("HELLO");
+		boolean yodaInNoms = etreDansNoms(noms, "YODA");
+		if(!yodaInNoms) chaine.append("HELLO");
 		for(int i=0; i<noms_size; i++) {
 			if(i == noms_size-1 && i != 0) {
 				chaine.append(" AND ").append(noms[i]);
 			}
 			else {
-				chaine.append(", ").append(noms[i]);
+				if(yodaInNoms && i == 0) chaine.append(noms[i]);
+				else chaine.append(", ").append(noms[i]);
 			}
 			if(compteur[i] != 1) {
 				chaine.append(" (x" + compteur[i] + ")");
 			}
 		}
+		if(yodaInNoms) chaine.append(", HELLO");
 		chaine.append(" !");
 		return chaine.toString();
 	}
